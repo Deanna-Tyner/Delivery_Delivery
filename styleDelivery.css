@@ -1,0 +1,23 @@
+#cred{
+    display: none;
+    
+}
+
+#bkButton{
+    display: none;
+}
+
+#canvas{
+
+  border: 1px solid #000000;
+  background-color: #f1f1f1;
+  
+
+}
+
+#main{
+
+    
+    display:none;
+
+}
