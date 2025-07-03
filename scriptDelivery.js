@@ -8,6 +8,8 @@ var sheildPowerUp = [];
 var storedPowerUp = [];
 var cooldown = 0;
 var invincCooldown = 0;
+var gameOver;
+var delivered;
 var endOfLevel = null;
 
 
@@ -27,7 +29,9 @@ function startBaseGame() {
     myGamePiece = new component(100, 150, "Molly-Stand.png", 0, 450, "image");
     background = new animateBackground(900, 500, 'DeliveryDelivery-Background.png', 0, 0, "back");
 
-    lives = new livesCounter ("30px", "Consolas", "black", 280, 40, "text");
+    lives = new livesCounter ("30px", "Consolas", "green", 280, 40, "text");
+
+
  
     setTimeout(() => {endOfLevel = new end(700, 700, "End-House.png", 850, -200, "image");}, 150000)
 
@@ -53,8 +57,9 @@ function startEndlessMode() {
     myGamePiece = new component(100, 150, "Molly-Stand.png", 0, 450, "image");
     background = new animateBackground(900, 500, 'DeliveryDelivery-Background.png', 0, 0, "back");
 
-    lives = new livesCounter ("30px", "Consolas", "black", 280, 40, "text");
+    lives = new livesCounter ("30px", "Consolas", "white", 280, 40, "text");
 
+    gameOver = new over("30px", "Consolas", "white", 280, 40, "text");
 
     myGameArea.start();
 
@@ -86,6 +91,27 @@ var myGameArea = {
     }
 }
 
+function over(width, height, color, x, y)
+{
+ 
+    this.width = width;
+    this.height = height;  
+    this.x = x;
+    this.y = y;
+
+        this.update = function()
+    {
+        ctx = myGameArea.context;
+ 
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+
+    }
+
+
+    
+}
 
 function animateBackground(width, height, color, x, y, type)
 {
@@ -405,6 +431,7 @@ function lifeLost(invincible)
     
     if (livesRemain == 0){
 
+        
         myGameArea.stop();
         return;
 
