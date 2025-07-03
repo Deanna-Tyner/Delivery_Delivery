@@ -14,23 +14,27 @@
 
 <body>
 
-    <div id = "head">
-    <h1> Delivery! Delivery! </h1>
-    </div>
 
 
+    <div id = "menu">
+
+      
+
+        <div id = "head">
+        <h1> Delivery! Delivery! </h1>
+        </div>
 
         <div id = bGame>
-             <button onClick = "startBaseGame()" type = "button">Start Base Game</button>
+             <button onClick = "startBaseGame()" type = "button" class = "bGameButt">Start Base Game</button>
         </div>
 
 
         <div id = endless>
-            <button onClick = "startEndlessMode()" type = "button">Start Endless Mode</button>
+            <button onClick = "startEndlessMode()" type = "button" class = "EndlessButt">Start Endless Mode</button>
         </div>
 
         <div id = credButton>
-            <button onClick = "showCredits()" type = "button">Credits</button>
+            <button onClick = "showCredits()" type = "button" class = "CredButt">Credits</button>
         </div>
         
         <div id = "cred">
@@ -38,18 +42,24 @@
         </div>
 
         <div id = "bkButton">
-            <button  onClick = "goBack()" type = "button"> Back </button>
+            <button  onClick = "goBack()" type = "button" class = "backButt"> Back </button>
         </div> 
 
 
   
+    </div>
 
-    <div id = "main">
+        <div class = "mainCav">
+
+        
+        <div id = "main">
+
 
         <canvas id = "canvas"></canvas>
 
         </div>
 
+        </div>
     
     <script src = "scriptDelivery.js"></script>
 

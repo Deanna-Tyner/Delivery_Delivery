@@ -1,23 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Dangrek&family=Delius&family=Gravitas+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dangrek&family=Delius&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Gravitas+One&display=swap');
+
+*{
+
+    margin: 0;
+
+    padding: 0;
+      
+    justify-items: center;
+
+    
+    text-align: center;
+
+    box-sizing: border-box;
+    
+}
+
+body{
+
+    justify-content: center;
+
+    align-items: center;
+
+    height: 100vh;
+
+    background-color: #E9A319;
+
+    margin:0;
+
+}
+
+
 #cred{
     display: none;
     
 }
 
-#bkButton{
-    display: none;
+#menu
+{
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+    padding: 40px;
+    margin:90px;
+   background-color: #FAD59A;
+    box-shadow: 0 0 20px #90a992;
+    border-radius: 10px;
+    font-family: 'Gravitas One', sans-serif;
+    
+    
 }
+
+
+.bGameButt{
+
+    font-family: 'Gravitas One', sans-serif;
+
+    border: none;
+
+    padding: 20px;
+
+    margin: 6px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    background-color: #FCEFCB;
+    color: #A86523;
+
+}
+
+.bGameButt:hover{
+    background-color: #A86523;
+    color:#FCEFCB;
+    transform: scale(1.05);
+
+}
+
+
+.EndlessButt{
+
+    background-color: #FCEFCB;
+    color: #A86523;
+
+    font-family: 'Gravitas One', sans-serif;
+
+    border: none;
+
+    padding: 20px;
+
+    margin: 6px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+   
+}
+
+.EndlessButt:hover{
+    background-color: #A86523;
+    color:#FCEFCB;
+    transform: scale(1.05);  
+}
+
+.CredButt{
+
+    background-color: #FCEFCB;
+    color: #A86523;
+
+    font-family: 'Gravitas One', sans-serif;
+
+    border: none;
+
+    padding: 20px;
+
+    margin: 9px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    
+}
+
+.CredButt:hover{
+    background-color: #A86523;
+    color:#FCEFCB;
+    transform: scale(1.05);     
+}
+
+#bkButton{
+
+
+
+     display: none;
+
+}
+.backButt{
+   
+    background-color: #FCEFCB;
+    
+    color: #A86523;
+
+    font-family: 'Gravitas One', sans-serif;
+
+    border: none;
+
+    padding: 20px;
+
+    margin: 5px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+   
+   
+}
+
+.backButt:hover{
+    background-color: #A86523;
+    color:#FCEFCB;
+    transform: scale(1.05);     
+}
+
 
 #canvas{
 
   border: 1px solid #000000;
   background-color: #f1f1f1;
+
+  margin: 43px;
   
 
 }
 
 #main{
 
-    
+ 
     display:none;
-
+ 
 }
+
+
