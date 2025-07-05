@@ -10,30 +10,25 @@ var cooldown = 0;
 var invincCooldown = 0;
 var gameOver;
 var delivered;
-var endOfLevel = null;
+var endOfLevel;
+var canvasWidth = 750;
+var canvasHeight = 500;
+
 
 
 
 function startBaseGame() {
 
 
-    document.getElementById("bGame").style.display = "none";
-    document.getElementById("endless").style.display = "none";
-    document.getElementById("head").style.display = "none";
-        
-    document.getElementById("cred").style.display = "none";       
-    document.getElementById("main").style.display = "block";
+    hideMenu();
+    
+    myGamePiece = new player(100, 150, "Molly-Stand.png", 0, 450);
+   
+    background = new animateBackground(900, 500, 'DeliveryDelivery-Background.png', 0, 0);
 
-    document.getElementById("menu").style.display = "none";
-    document.getElementById("credButton").style.display = "none";
-    myGamePiece = new component(100, 150, "Molly-Stand.png", 0, 450, "image");
-    background = new animateBackground(900, 500, 'DeliveryDelivery-Background.png', 0, 0, "back");
-
-    lives = new livesCounter ("30px", "Consolas", "green", 280, 40, "text");
-
-
+    lives = new livesCounter ("30px", "Consolas", "green", 280, 40);
  
-    setTimeout(() => {endOfLevel = new end(700, 700, "End-House.png", 850, -200, "image");}, 150000)
+    setTimeout(() => {endOfLevel = new end(700, 700, "End-House.png", 850, -200);}, 150000);
 
     myGameArea.start();
 
@@ -45,17 +40,11 @@ function startBaseGame() {
 function startEndlessMode() {
 
     
-    document.getElementById("bGame").style.display = "none";
-    document.getElementById("endless").style.display = "none";
-    document.getElementById("head").style.display = "none";
-        
-    document.getElementById("cred").style.display = "none";       
-    document.getElementById("main").style.display = "block";
+    hideMenu();
 
-    document.getElementById("menu").style.display = "none";
-    document.getElementById("credButton").style.display = "none";
-    myGamePiece = new component(100, 150, "Molly-Stand.png", 0, 450, "image");
-    background = new animateBackground(900, 500, 'DeliveryDelivery-Background.png', 0, 0, "back");
+    myGamePiece = new player(100, 150, "Molly-Stand.png", 0, 450);
+    
+    background = new animateBackground(900, 500, 'DeliveryDelivery-Background.png', 0, 0);
 
     lives = new livesCounter ("30px", "Consolas", "white", 280, 40, "text");
 
@@ -69,10 +58,9 @@ function startEndlessMode() {
 var myGameArea = {
     canvas : document.getElementById("canvas"),
     start : function() {
-        this.canvas.width = 750;
-        this.canvas.height = 500;
+        this.canvas.width = canvasWidth;
+        this.canvas.height = canvasHeight;
         this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNum = 0;
         this.interval = setInterval(updateGameArea, 20);
         window.addEventListener('keydown', function (e) {
@@ -113,94 +101,65 @@ function over(width, height, color, x, y)
     
 }
 
-function animateBackground(width, height, color, x, y, type)
+function animateBackground(width, height, color, x, y)
 {
-    this.type = type;
-    if (type == "image" || type == "back") {
-        this.image = new Image();
-        this.image.src = color;
-    }
+ 
+    this.image = new Image();
+    this.image.src = color;
+    
     this.width = width;
     this.height = height;
     this.speedX = 0;
-    this.speedY = 0;    
+    
     this.x = x;
     this.y = y;    
     this.update = function() {
         ctx = myGameArea.context;
-        if (type == "image" || type == "back") {
-            ctx.drawImage(this.image, 
-                this.x, 
-                this.y,
-                this.width, this.height);
-        if (type == "back") {
-            ctx.drawImage(this.image, 
-                this.x + this.width, 
-                this.y,
-                this.width, this.height);
-        }
-        } else {
-            ctx.fillStyle = color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
+ 
+        ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
+
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+ 
     }
     this.newPos = function() {
+
         this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.type == "back") {
+
+
             if (this.x == -(this.width)) {
                 this.x = 0;
             }
-        }
+        
     }
 
 }
 
 
 
-function end(width, height, color, x, y, type)
+function end(width, height, color, x, y)
 {
-    this.type = type;
-    if (type == "image" || type == "back") {
-        this.image = new Image();
-        this.image.src = color;
-    }
+  
+   
+    this.image = new Image();
+    this.image.src = color;
+    
     this.width = width;
     this.height = height;
     this.speedX = 0;
-    this.speedY = 0;    
+    
     this.x = x;
     this.y = y;
-    this.hit = false; 
+ 
 
     this.update = function(){
         ctx = myGameArea.context;
-        if (type == "image" || type == "back") {
-            ctx.drawImage(this.image, 
-                this.x, 
-                this.y,
-                this.width, this.height);
-        if (type == "back") {
-            ctx.drawImage(this.image, 
-                this.x + this.width, 
-                this.y,
-                this.width, this.height);
-        }
-        } else {
-            ctx.fillStyle = color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 
     }
 
     this.newPos = function() {
         this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.type == "back") {
-            if (this.x == -(this.width)) {
-                this.x = 0;
-            }
-        }
+      
         }
 
 
@@ -236,71 +195,45 @@ function enemy(width, height, color, x, y)
     
     this.width = width;
     this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;    
+    this.speedX = 0;  
     this.x = x;
     this.y = y;
-    this.levelEnd = false;
 
     this.update = function(){
         ctx = myGameArea.context;
      
-            ctx.drawImage(this.image, 
-                this.x, 
-                this.y,
-                this.width, this.height);
-  
-   
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 
     }
 
-        this.newPos = function() {
+    this.newPos = function() {
+
         this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.type == "back") {
-            if (this.x == -(this.width)) {
-                this.x = 0;
-            }
-        }
-        }
+
+}
 }
 
 
 
-function powerUp(width, height, color, x, y, powerType, type)
+function powerUp(width, height, color, x, y, powerType)
 {
     this.powerType = powerType;
-    this.type = type;
-            if (type == "image" || type == "back") {
+ 
         this.image = new Image();
         this.image.src = color;
-    }
+    
     this.width = width;
     this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;    
+    this.speedX = 0;   
     this.x = x;
     this.y = y;  
     this.powerUpActive = true;
-    this.visible = true;
+
 
     this.update = function(){
           ctx = myGameArea.context;
-        if (type == "image" || type == "back") {
-            ctx.drawImage(this.image, 
-                this.x, 
-                this.y,
-                this.width, this.height);
-        if (type == "background") {
-            ctx.drawImage(this.image, 
-                this.x + this.width, 
-                this.y,
-                this.width, this.height);
-        }
-        } else {
-            ctx.fillStyle = color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
 
     }
 
@@ -319,12 +252,6 @@ function powerUp(width, height, color, x, y, powerType, type)
     this.newPos = function() {
         
         this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.type == "back") {
-            if (this.x == -(this.width)) {
-                this.x = 0;
-            }
-        }
         }
 
 
@@ -333,12 +260,11 @@ function powerUp(width, height, color, x, y, powerType, type)
 
 
 
-function component(width, height, color, x, y, type) {
-    this.type = type;
-        if (type == "image" || type == "back") {
-        this.image = new Image();
-        this.image.src = color;
-    }
+function player(width, height, file, x, y) {
+
+    
+    this.image = new Image();
+    this.image.src = file;
     this.width = width;
     this.height = height;
     this.speedX = 0;
@@ -348,25 +274,10 @@ function component(width, height, color, x, y, type) {
     this.gravity = 0.2;
     this.gravitySpeed = 0;
     this.jumping = false;
-    this.shrink = false;
+
     this.update = function() {
          ctx = myGameArea.context;
-        if (type == "image" || type == "back") {
-            ctx.drawImage(this.image, 
-                this.x, 
-                this.y,
-                this.width, this.height);
-        if (type == "background") {
-            ctx.drawImage(this.image, 
-                this.x + this.width, 
-                this.y,
-                this.width, this.height);
-        }
-        } else {
-            ctx.fillStyle = color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
-        
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);   
     }
     this.newPos = function() {
         this.gravitySpeed += this.gravity;
@@ -391,6 +302,8 @@ function component(width, height, color, x, y, type) {
 
 
 
+
+
 function livesCounter(width, height, color, x, y, type)
 {
     
@@ -403,9 +316,11 @@ function livesCounter(width, height, color, x, y, type)
     {
         ctx = myGameArea.context;
  
-            ctx.font = this.width + " " + this.height;
-            ctx.fillStyle = color;
-            ctx.fillText(this.text, this.x, this.y);
+        ctx.font = this.width + " " + this.height;
+            
+        ctx.fillStyle = color;
+            
+        ctx.fillText(this.text, this.x, this.y);
 
     }
     
@@ -417,7 +332,6 @@ function livesCounter(width, height, color, x, y, type)
 function lifeLost(invincible)
 {
 
-    //var invincible = false;
 
     if(livesRemain > 0 && invincible == false)
     {
@@ -496,11 +410,6 @@ function powerUpCollision(gamePiece, powerUpType)
     }   
 }
 
-function walkEnemyInterval()
-{
-    walkingEnemy.push( new enemy(100, 80, "green", 300, 150));
-    //walkingEnemy.push( new enemy(100, 100, "blue", 300, 450));
-}
 
 function updateGameArea() {
 
@@ -508,15 +417,12 @@ function updateGameArea() {
 
     cooldownTime();
 
-    let inter = Math.floor((Math.random() * 150) + 50);
-    
 
     for(i = 0; i < flyingEnemy.length; i +=1)
     {
         if(collision(myGamePiece, flyingEnemy[i]) == true && cooldown == 0)
             {
                 lifeLost(false);
-                console.log("hit flying enemy");
 
             }        
     }
@@ -526,7 +432,6 @@ function updateGameArea() {
         if(collision(myGamePiece, walkingEnemy[i]) == true && cooldown == 0)
         {
                 lifeLost(false);
-                console.log("hit walking enemy");
         }
     }
 
@@ -557,12 +462,17 @@ function updateGameArea() {
 
 
     myGameArea.clear();
-
+   
     myGameArea.frameNum += 1;
-
+    
+    
     background.speedX = -1;
     background.newPos();
     background.update();
+
+    
+
+
 
     if(myGameArea.frameNum == 100 || everyFlyinterval(250))
     {
@@ -576,12 +486,12 @@ function updateGameArea() {
 
     if(myGameArea.frameNum == 200|| everySheildInterval(350))
     {
-        sheildPowerUp.push( new powerUp(50, 50, "Shield.png", 900, 400, "sheild", "image"));
+        sheildPowerUp.push( new powerUp(50, 50, "Shield.png", 900, 400, "sheild"));
     }
 
     if(myGameArea.frameNum == 300 || everyJumpInterval(350))
     {
-        jumpPowerUp.push(new powerUp(50, 50, "Jump.png", 1000, 400, "jump", "image"));
+        jumpPowerUp.push(new powerUp(50, 50, "Jump.png", 1000, 400, "jump"));
     }
     
 
@@ -614,14 +524,13 @@ function updateGameArea() {
         jumpPowerUp[i].update();
     }
 
-    move(myGameArea.key, "sim");
+    move(myGameArea.key);
     //move(myGameArea.key, "en");
 
 
-    if(endOfLevel !== null)
-    {
-        final();
-    }
+  
+    final();
+    
     
     //flyingEnemy.update();
     //walkingEnemy.update();
@@ -629,12 +538,17 @@ function updateGameArea() {
     //jumpPowerUp.update();
     //sheildPowerUp.update();
     
-    myGamePiece.x += myGamePiece.speedX;
-    myGamePiece.y += myGamePiece.speedY;
-    lives.text = "Lives: " + livesRemain;
-    lives.update();
 
+    myGamePiece.x += myGamePiece.speedX;
+
+    myGamePiece.y += myGamePiece.speedY;
+
+    lives.text = "Lives: " + livesRemain;
+
+    lives.update();
+ 
     myGamePiece.newPos();    
+    
     myGamePiece.update();
    
 
@@ -645,7 +559,6 @@ function move(key)
 {
     if(key == 37)
     {
-        //myGamePiece.image.src = "Molly-Left.png";
         goLeft()
     }
     else if (key == 39)
@@ -697,14 +610,10 @@ function jump(type)
         myGamePiece.gravitySpeed = -8.5; myGamePiece.jumping = true;
     }
         
-  
-     
+    
 }
 
-function superJump()
-{
-    myGamePiece.gravitySpeed = -9; myGamePiece.jumping = true;    
-}
+
 
 
 
@@ -718,13 +627,12 @@ function everyFlyinterval(n) {
 
 function everyWalkinterval(n) {
     
-    /*if ((myGameArea.frameNum / n) % 2 == 0) 
+    if ((myGameArea.frameNum / n) % 2 == 0) 
         {
             return true;
         }
-        return false;*/
+        return false;
 
-        return (myGameArea.frameNum % (2 * n)) === 0;
 }
 
 function everySheildInterval(n)
@@ -750,7 +658,20 @@ function clearmove() {
     myGamePiece.speedX = 0; 
     myGamePiece.speedY = 0; 
 }
-var showCredits = function(){
+
+function hideMenu()
+{
+    document.getElementById("bGame").style.display = "none";
+    document.getElementById("endless").style.display = "none";
+    document.getElementById("head").style.display = "none";
+        
+    document.getElementById("cred").style.display = "none";       
+    document.getElementById("main").style.display = "block";
+
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("credButton").style.display = "none";   
+}
+function showCredits(){
        document.getElementById("head").style.display = "none";
        document.getElementById("credButton").style.display = "none";
        document.getElementById("bGame").style.display = "none";
@@ -759,7 +680,7 @@ var showCredits = function(){
        document.getElementById("bkButton").style.display = "block";
      };
       
-var goBack = function(){
+function goBack(){
       document.getElementById("bkButton").style.display = "none";
       document.getElementById("cred").style.display = "none";
       document.getElementById("head").style.display = "block";
@@ -767,3 +688,4 @@ var goBack = function(){
       document.getElementById("endless").style.display = "block";
       document.getElementById("credButton").style.display = "block";
     };
+
